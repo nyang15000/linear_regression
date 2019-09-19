@@ -45,7 +45,15 @@ def load_hospital_data(path_to_data):
         clean_df (pandas.DataFrame) containing the cleaned and formatted dataset for regression
     """
     df = pd.read_csv(path_to_data)
-    pass
+    df = df.rename(columns = {' Average Covered Charges ':'average covered charges', 
+                              ' Average Total Payments ':'average total payments',
+                              ' Total Discharges ': 'total discharges',
+                              'Provider State':'provide state',
+                              'Average Medicare Payments':'average medicare payments'})
+    df[['average covered charges','average total payments','total discharges','provide state']] = \
+        df[['average covered charges','average total payments','total discharges','provide state']].astype(np.float64)
+    df = df[(df['average covered charges']>0)&(df['average total payments']>0)&(df['total discharges']>0)&(df['average medicare payments']>0)]
+    return df
 
 def prepare_data(df):
     """
@@ -55,7 +63,9 @@ def prepare_data(df):
     RETURNS
         data (dict) containing X design matrix and y response variable
     """
-    pass
+    y = df[['total discharges']].values
+    X = sm.add_constant(df[['average total payments']])
+    return {'X':X, 'y':y}
 
 
 def run_hospital_regression(path_to_data):
