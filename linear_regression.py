@@ -22,7 +22,8 @@ def simulate_data(nobs):
     return {'X':X,'y':y,'beta':beta}
 
 
-def compare_models(X,y):
+
+def compare_models(X, y):
     """
     Compares output from different implementations of OLS.
     INPUT
@@ -31,7 +32,8 @@ def compare_models(X,y):
     RETURNS
         results (pandas.DataFrame) of estimated beta coefficients
     """
-    pass
+    results = sm.OLS(y, X).fit()
+    return(results.params)
 
 
 def load_hospital_data(path_to_data):
