@@ -6,7 +6,7 @@ from sklearn.linear_model import LinearRegression
 import statsmodels.api as sm
 
 
-def simulate_data():
+def simulate_data(nobs):
     """
     Simulates data for testing linear_regression models.
     INPUT
@@ -14,7 +14,13 @@ def simulate_data():
     RETURNS
         data (dict) contains X, y, and beta vectors.
     """
-    pass
+    X = np.random.random((nobs, 2))
+    X = sm.add_constant(X)
+    beta = [1, .1, .5]
+    e = np.random.random(nobs)
+    y = np.dot(X, beta) + e
+    return {'X':X,'y':y,'beta':beta}
+
 
 
 def compare_models(X, y):
@@ -30,7 +36,7 @@ def compare_models(X, y):
     return(results.params)
 
 
-def load_hospital_data():
+def load_hospital_data(path_to_data):
     """
     Loads the hospital charges data set found at data.gov.
     INPUT
@@ -38,10 +44,10 @@ def load_hospital_data():
     RETURNS
         clean_df (pandas.DataFrame) containing the cleaned and formatted dataset for regression
     """
+    df = pd.read_csv(path_to_data)
     pass
 
-
-def prepare_data():
+def prepare_data(df):
     """
     Prepares hospital data for regression (basically turns df into X and y).
     INPUT
@@ -52,7 +58,7 @@ def prepare_data():
     pass
 
 
-def run_hospital_regression():
+def run_hospital_regression(path_to_data):
     """
     Loads hospital charge data and runs OLS on it.
     INPUT
