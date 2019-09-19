@@ -32,8 +32,14 @@ def compare_models(X, y):
     RETURNS
         results (pandas.DataFrame) of estimated beta coefficients
     """
-    results = sm.OLS(y, X).fit()
-    return(results.params)
+    sm_reg = sm.OLS(y, X).fit()
+    sm_params = sm_reg.params
+
+    sk_reg = linear_model.LinearRegression().fit(X, y)
+    sk_params = sk_reg.coef_
+
+    results = {'statsmodel':sm_params, 'sklearn':sk_params}
+    return(pd.DataFrame(results))
 
 
 def load_hospital_data(path_to_data):
