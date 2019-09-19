@@ -17,7 +17,7 @@ def simulate_data():
     pass
 
 
-def compare_models():
+def compare_models(X, y):
     """
     Compares output from different implementations of OLS.
     INPUT
@@ -26,7 +26,8 @@ def compare_models():
     RETURNS
         results (pandas.DataFrame) of estimated beta coefficients
     """
-    pass
+    results = sm.OLS(y, X).fit()
+    return(results.params)
 
 
 def load_hospital_data():
